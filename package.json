@@ -18,10 +18,10 @@
   },
   "dependencies": {
     "download-manager": "^0.0.20",
+    "nodejs": "NodeOS/nodejs",
     "nodeos-cross-toolchain": "NodeOS/nodeos-cross-toolchain"
   },
   "devDependencies": {
-    "nodejs": "NodeOS/nodejs",
     "qemu": "NodeOS/qemu"
   },
   "nodeosDependencies": {
