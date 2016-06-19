@@ -27,12 +27,21 @@
   },
   "devDependencies": {
     "nodeos-barebones": "1.0.0-RC2.0",
-    "qemu": "NodeOS/qemu",
+    "qemu": "github:nodeos/qemu",
     "suppose": "^0.5.2"
   },
   "nodeosDependencies": [
     "nodeos-mount-filesystems",
     "nodeos-mount-utils",
     "usrbinenv"
-  ]
+  ],
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NodeOS/nodeos-initramfs.git"
+  },
+  "bugs": {
+    "url": "https://github.com/NodeOS/nodeos-initramfs/issues"
+  },
+  "homepage": "https://github.com/NodeOS/nodeos-initramfs#readme"
 }
