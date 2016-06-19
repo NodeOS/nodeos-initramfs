@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 
+var readFileSync = require('fs').readFileSync
+
 var suppose = require('suppose')
 
-var processArguments = require('./processArguments')
+var processArguments = require('nodeos-barebones/scripts/processArguments')
 
 
 const QEMU_SYSTEM = require('qemu')+'/bin/qemu-system-'
@@ -28,16 +30,35 @@ var command = QEMU_SYSTEM+args.cpu_family
 
 var args =
 [
-//  '-enable-kvm',  // Give problems running inside VMs, like Travis-CI
+  '-enable-kvm',
   '-nographic',
-  '--kernel', 'out/'+cpu+'/linux',
+  '--kernel', require('nodeos-barebones')+'/out/'+cpu+'/linux',
+  '--initrd', 'out/'+cpu+'.cpio.gz',
   '-append',  'console=ttyS0'
 ]
+
+// check if kvm is supported
+var kvm = /(vmx|svm)/;
+var contents = "";
+
+try
+{
+  contents = readFileSync('/proc/cpuinfo');
+} catch(e){
+  throw(e);
+}
+
+if(kvm.test(contents) === false)
+{
+  // disable kvm
+  console.log("Your computer does not support kvm. NodeOS will be slower without it.");
+  args.shift();
+}
 
 if(machine) args.unshift('-machine', machine)
 
 exe = suppose(command, args)
-  .when(/nodeos-mount-filesystems> /).respond('setTimeout(console.log, 2000, "this is","a test")\n')
+  .when(/NodeOS-mount-filesystems> /).respond('setTimeout(console.log, 2000, "this is","a test")\n')
   .when(/this is a test/, function(exe)
   {
     exe.kill()

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-var fs    = require('fs')
-var spawn = require('child_process').spawn
+var readFileSync = require('fs').readFileSync
+var spawn        = require('child_process').spawn
 
 
-var processArguments = require('../../nodeos-barebones/scripts/processArguments')
+var processArguments = require('nodeos-barebones/scripts/processArguments')
 
 
 const QEMU_SYSTEM = require('qemu')+'/bin/qemu-system-'
@@ -47,9 +47,8 @@ var args =
   '-redir', 'tcp:50080::80',
   '-redir', 'tcp:50443::443',
   '-nographic',
-//  '--kernel', '../nodeos-barebones/out/latest',
-  '--kernel', require('nodeos-barebones')+'/out/latest',
-  '--initrd', 'out/latest',
+  '--kernel', require('nodeos-barebones')+'/out/'+cpu+'/linux',
+  '--initrd', 'out/'+cpu+'.cpio.gz',
   '-append',  append.join(' ')
 ]
 
@@ -62,7 +61,7 @@ var contents = "";
 
 try
 {
-  contents = fs.readFileSync('/proc/cpuinfo');
+  contents = readFileSync('/proc/cpuinfo');
 } catch(e){
   throw(e);
 }
