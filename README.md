@@ -1,3 +1,5 @@
+[![Build Status](https://semaphoreci.com/api/v1/nodeos/nodeos-initramfs/branches/master/badge.svg)](https://semaphoreci.com/nodeos/nodeos-initramfs)
+
 # NodeOS initramfs
 
 This package generate a initramfs image that will try to mount the users

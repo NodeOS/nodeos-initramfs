@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-OBJECTS=obj
+OBJECTS=build
 
 if [[ -d $OBJECTS ]]; then
   chmod -R +w $OBJECTS
