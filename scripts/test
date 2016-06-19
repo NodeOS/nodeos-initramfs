@@ -1,7 +1,56 @@
-#!/usr/bin/env bash
+#!/usr/bin/env node
+
+var suppose = require('suppose')
+
+var processArguments = require('./processArguments')
 
 
-TOOLCHAIN=`pwd`/../nodeos-cross-toolchain
-TOOLS=$TOOLCHAIN/out
+const QEMU_SYSTEM = require('qemu')+'/bin/qemu-system-'
+const TIMEOUT = 30
 
-source $TOOLCHAIN/scripts/adjustEnvVars.sh || exit $?
+
+var args = processArguments(process.argv.slice(2))
+
+var cpu = args.cpu
+var machine = args.machine
+
+var exe
+var timeout = setTimeout(function()
+{
+  exe.kill()
+
+  console.error('Timeout while waiting an answer')
+  process.exit(-2)
+}, TIMEOUT*1000)
+
+
+var command = QEMU_SYSTEM+args.cpu_family
+
+var args =
+[
+//  '-enable-kvm',  // Give problems running inside VMs, like Travis-CI
+  '-nographic',
+  '--kernel', 'out/'+cpu+'/linux',
+  '-append',  'console=ttyS0'
+]
+
+if(machine) args.unshift('-machine', machine)
+
+exe = suppose(command, args)
+  .when(/nodeos-mount-filesystems> /).respond('setTimeout(console.log, 2000, "this is","a test")\n')
+  .when(/this is a test/, function(exe)
+  {
+    exe.kill()
+  })
+  .on('error', function(error)
+  {
+    if(error.message.indexOf('terminating on signal 15 from pid') < 0)
+      console.trace(error)
+  })
+  .end(function()
+  {
+    clearTimeout(timeout)
+
+    var expects = this.expects.length
+    if(expects) process.exit(expects)
+  })
