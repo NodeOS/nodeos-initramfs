@@ -17,15 +17,18 @@
     "download-manager": "^0.0.20",
     "nodeos-barebones": "1.0.0-RC2",
     "nodeos-cross-toolchain": "^1.0.0-RC2.0",
-    "nodeos-nodejs": "^6.2.2"
+    "nodeos-mount-filesystems": "^0.1.4",
+    "nodeos-mount-utils": "^0.1.0",
+    "nodeos-nodejs": "^6.2.2",
+    "usrbinenv": "^0.0.3"
   },
   "devDependencies": {
     "qemu": "NodeOS/qemu",
     "suppose": "^0.5.2"
   },
-  "nodeosDependencies": {
-    "nodeos-mount-filesystems": "^0.1.1",
-    "nodeos-mount-utils": "^0.1.0",
-    "usrbinenv": "^0.0.2"
-  }
+  "nodeosDependencies": [
+    "nodeos-mount-filesystems",
+    "nodeos-mount-utils",
+    "usrbinenv"
+  ]
 }
