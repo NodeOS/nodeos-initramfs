@@ -1,6 +1,6 @@
 {
   "name": "nodeos-initramfs",
-  "version": "1.0.0-RC2",
+  "version": "1.0.0-RC2.1",
   "description": "Generate a NodeOS initramfs",
   "scripts": {
     "docker": "docker run",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "download-manager": "^0.0.20",
-    "nodeos-cross-toolchain": "^1.0.0-RC2.0",
+    "nodeos-cross-toolchain": "^1.0.0-RC2.8",
     "nodeos-mount-filesystems": "^0.1.4",
     "nodeos-mount-utils": "^0.1.0",
     "nodeos-nodejs": "^4.4.5",
