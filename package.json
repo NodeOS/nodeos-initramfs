@@ -20,7 +20,7 @@
   "dependencies": {
     "download-manager": "^0.0.20",
     "nodeos-cross-toolchain": "^1.0.0-RC2.8",
-    "nodeos-mount-filesystems": "^0.1.4",
+    "nodeos-mount-filesystems": "^0.1.5",
     "nodeos-mount-utils": "^0.1.0",
     "nodeos-nodejs": "^4.4.5",
     "usrbinenv": "^0.0.3"
