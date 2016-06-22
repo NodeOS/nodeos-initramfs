@@ -15,19 +15,19 @@
   "author": "Jesús Leganés Combarro 'piranna' <piranna@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "nodeos-barebones": "1.0.0-RC2.0"
+    "nodeos-barebones": "1.0.0-RC2.2"
   },
   "dependencies": {
     "download-manager": "^0.0.20",
-    "nodeos-cross-toolchain": "^1.0.0-RC2.8",
-    "nodeos-mount-filesystems": "^0.1.4",
+    "nodeos-cross-toolchain": "^1.0.0-RC2.9",
+    "nodeos-mount-filesystems": "^0.1.5",
     "nodeos-mount-utils": "^0.1.0",
     "nodeos-nodejs": "^4.4.5",
     "usrbinenv": "^0.0.3"
   },
   "devDependencies": {
-    "nodeos-barebones": "1.0.0-RC2.0",
-    "qemu": "github:nodeos/qemu",
+    "nodeos-barebones": "1.0.0-RC2.2",
+    "qemu": "^2.6.0",
     "suppose": "^0.5.2"
   },
   "nodeosDependencies": [
