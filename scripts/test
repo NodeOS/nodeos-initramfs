@@ -30,30 +30,30 @@ var command = QEMU_SYSTEM+args.cpu_family
 
 var args =
 [
-  '-enable-kvm',
+//  '-enable-kvm',
   '-nographic',
   '--kernel', require('nodeos-barebones')+'/out/'+cpu+'/linux',
   '--initrd', 'out/'+cpu+'.cpio.gz',
   '-append',  'console=ttyS0'
 ]
 
-// check if kvm is supported
-var kvm = /(vmx|svm)/;
-var contents = "";
-
-try
-{
-  contents = readFileSync('/proc/cpuinfo');
-} catch(e){
-  throw(e);
-}
-
-if(kvm.test(contents) === false)
-{
-  // disable kvm
-  console.log("Your computer does not support kvm. NodeOS will be slower without it.");
-  args.shift();
-}
+// // check if kvm is supported
+// var kvm = /(vmx|svm)/;
+// var contents = "";
+//
+// try
+// {
+//   contents = readFileSync('/proc/cpuinfo');
+// } catch(e){
+//   throw(e);
+// }
+//
+// if(kvm.test(contents) === false)
+// {
+//   // disable kvm
+//   console.log("Your computer does not support kvm. NodeOS will be slower without it.");
+//   args.shift();
+// }
 
 if(machine) args.unshift('-machine', machine)
 
