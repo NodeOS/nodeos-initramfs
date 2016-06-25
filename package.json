@@ -28,7 +28,7 @@
   "devDependencies": {
     "nodeos-barebones": "1.0.0-RC2.3",
     "qemu": "^2.6.0",
-    "suppose": "^0.5.2"
+    "suppose": "^0.6.0"
   },
   "nodeosDependencies": [
     "nodeos-mount-filesystems",
