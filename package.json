@@ -22,7 +22,7 @@
     "nodeos-cross-toolchain": "^1.0.0-RC2.11",
     "nodeos-mount-filesystems": "^0.1.5",
     "nodeos-mount-utils": "^0.1.0",
-    "nodeos-nodejs": "^6.3.0",
+    "nodeos-nodejs": "^6.3.1",
     "usrbinenv": "^0.0.3"
   },
   "devDependencies": {
