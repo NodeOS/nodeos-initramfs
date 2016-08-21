@@ -7,7 +7,7 @@
     "dockerBuild": "docker build -t initramfs .",
     "build": "scripts/build",
     "start": "scripts/start",
-    "install": "scripts/install",
+    "prebuild": "scripts/prebuild",
     "prepublish": "scripts/prepublish",
     "test": "scripts/test",
     "unbuild": "scripts/unbuild"
@@ -15,18 +15,18 @@
   "author": "Jesús Leganés Combarro 'piranna' <piranna@gmail.com>",
   "license": "MIT",
   "peerDependencies": {
-    "nodeos-barebones": "1.0.0-RC2.3"
+    "nodeos-barebones": "NodeOS/nodeos-barebones"
   },
   "dependencies": {
-    "download-manager": "^0.0.20",
-    "nodeos-cross-toolchain": "^1.0.0-RC2.11",
-    "nodeos-mount-filesystems": "^0.1.5",
+    "download-manager": "^0.1.1",
+    "nodeos-cross-toolchain": "NodeOS/nodeos-cross-toolchain",
+    "nodeos-mount-filesystems": "^0.1.6",
     "nodeos-mount-utils": "^0.1.0",
-    "nodeos-nodejs": "^6.3.0",
+    "nodeos-nodejs": "^6.4.0",
     "usrbinenv": "^0.0.3"
   },
   "devDependencies": {
-    "nodeos-barebones": "1.0.0-RC2.3",
+    "nodeos-barebones": "NodeOS/nodeos-barebones",
     "qemu": "^2.6.0",
     "suppose": "^0.6.1"
   },
