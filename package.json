@@ -18,11 +18,11 @@
     "nodeos-barebones": "NodeOS/nodeos-barebones"
   },
   "dependencies": {
-    "download-manager": "^0.1.1",
+    "download-manager": "^0.1.2",
     "nodeos-cross-toolchain": "NodeOS/nodeos-cross-toolchain",
     "nodeos-mount-filesystems": "^0.1.6",
-    "nodeos-mount-utils": "^0.1.0",
-    "nodeos-nodejs": "^6.4.0",
+    "nodeos-mount-utils": "^0.2.0",
+    "nodeos-nodejs": "^6.5.0",
     "usrbinenv": "^0.0.3"
   },
   "devDependencies": {
