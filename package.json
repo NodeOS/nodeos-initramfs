@@ -19,11 +19,11 @@
   },
   "dependencies": {
     "download-manager": "^0.1.2",
+    "jocker": "^0.0.0",
     "nodeos-cross-toolchain": "NodeOS/nodeos-cross-toolchain",
-    "nodeos-mount-filesystems": "^0.2.1",
-    "nodeos-mount-utils": "^0.2.0",
+    "nodeos-mount-filesystems": "^0.3.0",
     "nodeos-nodejs": "^6.5.0",
-    "usrbinenv": "^0.0.3"
+    "usrbinenv": "^0.1.0"
   },
   "devDependencies": {
     "nodeos-barebones": "NodeOS/nodeos-barebones",
@@ -31,8 +31,8 @@
     "suppose": "^0.6.1"
   },
   "nodeosDependencies": [
+    "jocker",
     "nodeos-mount-filesystems",
-    "nodeos-mount-utils",
     "usrbinenv"
   ],
   "main": "index.js",
