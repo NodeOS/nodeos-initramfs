@@ -21,7 +21,7 @@
     "download-manager": "^0.1.2",
     "jocker": "^0.0.0",
     "nodeos-cross-toolchain": "NodeOS/nodeos-cross-toolchain",
-    "nodeos-mount-filesystems": "^0.3.0",
+    "nodeos-boot-multiUser": "^0.4.0",
     "nodeos-nodejs": "^6.5.0",
     "usrbinenv": "^0.1.0"
   },
@@ -32,7 +32,7 @@
   },
   "nodeosDependencies": [
     "jocker",
-    "nodeos-mount-filesystems",
+    "nodeos-boot-multiUser",
     "usrbinenv"
   ],
   "main": "index.js",

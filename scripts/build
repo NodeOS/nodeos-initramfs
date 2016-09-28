@@ -149,7 +149,7 @@ if [[ ! -d $STEP_DIR ]]; then
     eval "$NPMi" -g $PACKAGES || exit 24
 
     mkdir -p $STEP_DIR/sbin                                    &&
-    ln -fs ../bin/nodeos-mount-filesystems $STEP_DIR/sbin/init || exit 27
+    ln -fs ../bin/nodeos-boot-multiUser $STEP_DIR/sbin/init || exit 27
 
 
     #
