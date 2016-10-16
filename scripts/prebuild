@@ -7,7 +7,7 @@ var manager = require('download-manager')
 
 // Source versions
 
-const FUSE_VERSION = "2.9.5"
+const FUSE_VERSION = "2.9.7"
 
 
 // Source URLs
