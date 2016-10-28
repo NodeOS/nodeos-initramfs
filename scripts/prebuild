@@ -12,9 +12,7 @@ const FUSE_VERSION = "2.9.7"
 
 // Source URLs
 
-var fuse_dir_version = FUSE_VERSION.split('.').join('_')
-
-const FUSE_URL="https://github.com/libfuse/libfuse/releases/download/fuse_"+fuse_dir_version+"/fuse-"+FUSE_VERSION+".tar.gz"
+const FUSE_URL="https://github.com/libfuse/libfuse/releases/download/fuse-"+FUSE_VERSION+"/fuse-"+FUSE_VERSION+".tar.gz"
 
 
 //
