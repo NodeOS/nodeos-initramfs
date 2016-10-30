@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+/**
+ * Build `nodeos-barebones` devDependency when it's being used the
+ * `nodeos-initramfs` standalone (mostly for development purposses)
+ */
+
 const spawn = require('child_process').spawn
 
 
