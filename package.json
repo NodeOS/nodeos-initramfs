@@ -7,6 +7,7 @@
     "dockerBuild": "docker build -t initramfs .",
     "build": "scripts/build",
     "start": "scripts/start",
+    "postinstall": "scripts/postinstall",
     "prebuild": "scripts/prebuild",
     "prepublish": "scripts/prepublish",
     "test": "scripts/test",
@@ -19,7 +20,7 @@
     "jocker": "^0.0.0",
     "nodeos-cross-toolchain": "NodeOS/nodeos-cross-toolchain#raspi2",
     "nodeos-boot-multiUser": "^0.4.1",
-    "nodeos-nodejs": "^6.8.1",
+    "nodeos-nodejs": "^6.9.1",
     "usrbinenv": "^0.1.0"
   },
   "devDependencies": {
