@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "nodeos-barebones": "NodeOS/nodeos-barebones",
-    "qemu": "^2.6.0",
+    "qemu": "^2.7.0",
     "suppose": "^0.6.1"
   },
   "nodeosDependencies": [
