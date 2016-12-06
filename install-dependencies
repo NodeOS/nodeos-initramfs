@@ -1,3 +1,4 @@
 #!/usr/bin/env sh
 
+apt install -y libfuse-dev        || exit $?
 apt install -y bc libsdl1.2debian || exit $?

@@ -12,8 +12,6 @@ CLR="\e[0m"
 
 TOOLCHAIN=`node -p "require('nodeos-cross-toolchain')"`
 
-NODE_DIR=`node -p "require('nodeos-nodejs')"`
-
 source $TOOLCHAIN/scripts/adjustEnvVars.sh &&
 source scripts/utils.sh                    || exit $?
 
@@ -23,7 +21,7 @@ PATH=$TOOLCHAIN/bin:$PATH
 # Build cross-compiler (if needed)
 (
   cd $TOOLCHAIN
-  BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm run build || exit $?
+  BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm install --production || exit 1
 ) || exit $?
 
 
@@ -31,100 +29,61 @@ PATH=$TOOLCHAIN/bin:$PATH
 # Define steps paths
 #
 
-OBJ_FUSE=$OBJECTS/fuse
-OBJ_INITRAMFS=$OBJECTS/initramfs
 OUT_DIR=`pwd`/out/$CPU
-
-SRC_FUSE=`pwd`/deps/fuse
 
 
 #
 # FUSE
 #
 
-STEP_DIR=$OBJ_FUSE
+SRC_FUSE=`node -p "require('libfuse')"`
 
-if [[ ! -d $STEP_DIR ]]; then
-  echo -e "${WHT}Compiling FUSE${CLR}"
-
-  # Force re-creation of initramfs
-  if [[ -d $OBJ_INITRAMFS ]]; then
-    chmod -R u+w $OBJ_INITRAMFS &&
-    rmStep       $OBJ_INITRAMFS || exit 10
-  fi
-
-  (
-    mkdir -p $STEP_DIR &&
-    cd $STEP_DIR       || exit 11
-
-    # Configure
-#    CROSS_COMPILE="$TARGET-"  \
-    MOUNT_FUSE_PATH=/bin  \
-    CC=$TARGET-gcc        \
-    CXX=$TARGET-g++       \
-    $SRC_FUSE/configure   \
-        --silent          \
-        --prefix=/        \
-        --host=$TARGET    \
-        --disable-example \
-        --disable-static  \
-        --disable-util    || exit 12
-
-    # Compile
-    $MAKE || exit 13
-
-    # Strip binary
-    $TARGET-strip lib/.libs/libfuse.so || exit 14
-  ) || err $?
-
-  echo -e "${GRN}Successfully compiled FUSE${CLR}"
-fi
+(
+  cd $SRC_FUSE
+  BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm run build || exit 11
+  # BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm install --production || exit 11
+) || err $?
 
 
 #
 # System dependencies
 #
 
-STEP_DIR=$OBJ_INITRAMFS
+STEP_DIR=$OBJECTS
 
 if [[ ! -d $STEP_DIR ]]; then
   echo -e "${WHT}Generating initramfs${CLR}"
 
   rmStep $OUT_DIR
 
-  mkdir -p $STEP_DIR || err 20
+  #
+  # Install FUSE
+  #
 
-  (
-    #
-    # Install FUSE
-    #
+  eval "$NPMi" -g exclfs                          \
+      --fuse__include_dirs=$SRC_FUSE/include/fuse \
+      --fuse__library_dirs=$SRC_FUSE/lib          \
+      --fuse__libraries=-lfuse                    || err 20
 
-    mkdir -p $STEP_DIR/lib                              &&
-    cp -d $OBJ_FUSE/lib/.libs/libfuse.so* $STEP_DIR/lib || exit 21
+  cp $SRC_FUSE/lib/libfuse.so* $STEP_DIR/lib || err 21
 
-    eval "$NPMi" -g exclfs                       \
-        --fuse__include_dirs=$SRC_FUSE/include   \
-        --fuse__library_dirs=$OBJ_FUSE/lib/.libs \
-        --fuse__libraries=-lfuse                 || exit 22
+  #
+  # Install system dependencies
+  #
 
-    #
-    # Install system dependencies
-    #
+  PACKAGES=`node -p "require('./package.json').nodeosDependencies.join(' ')"`
+  eval "$NPMi" -g $PACKAGES || err 22
 
-    PACKAGES=`node -p "require('./package.json').nodeosDependencies.join(' ')"`
-    eval "$NPMi" -g $PACKAGES || exit 23
-
-    mkdir -p $STEP_DIR/sbin                                    &&
-    ln -fs ../bin/nodeos-boot-multiUser $STEP_DIR/sbin/init || exit 24
+  mkdir -p $STEP_DIR/sbin                                 &&
+  ln -fs ../bin/nodeos-boot-multiUser $STEP_DIR/sbin/init || err 23
 
 
-    #
-    # /usr/bin/env
-    #
+  #
+  # /usr/bin/env
+  #
 
-    mkdir -p             $STEP_DIR/usr/bin     &&
-    ln -fs ../../bin/env $STEP_DIR/usr/bin/env || exit 25
-  ) || err $?
+  mkdir -p             $STEP_DIR/usr/bin     &&
+  ln -fs ../../bin/env $STEP_DIR/usr/bin/env || err 24
 
   echo -e "${GRN}Successfully generated initramfs${CLR}"
 fi
@@ -137,15 +96,15 @@ fi
 STEP_DIR=$OUT_DIR
 
 # Set initramfs files only accesible to root
-chmod -R u-w,go-rw "$OBJ_INITRAMFS"                            &&
-chmod -R o+r       "$OBJ_INITRAMFS/lib/node_modules/usrbinenv" &&
-chmod -R o+r       "$OBJ_INITRAMFS/usr/bin/env"                || exit 30
+chmod -R u-w,go-rw "$OBJECTS"                            &&
+chmod -R o+r       "$OBJECTS/lib/node_modules/usrbinenv" &&
+chmod -R o+r       "$OBJECTS/usr/bin/env"                || exit 30
 
 if [[ ! -f $STEP_DIR ]]; then
   mkdir -p `dirname $STEP_DIR`
 
   (
-    cd "$OBJ_INITRAMFS"                       &&
+    cd "$OBJECTS"                             &&
     find | cpio --owner 0:0 -o -H newc | gzip || exit 40
   ) > $STEP_DIR || err $?
 fi
