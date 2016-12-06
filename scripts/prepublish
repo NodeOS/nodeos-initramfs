@@ -1,5 +1,10 @@
 #!/usr/bin/env node
 
+/**
+ * Build `nodeos-barebones` devDependency when it's being used the
+ * `nodeos-initramfs` standalone (mostly for development purposses)
+ */
+
 const spawn = require('child_process').spawn
 
 
@@ -12,5 +17,11 @@ const BAREBONES = require('nodeos-barebones')
 // (https://docs.npmjs.com/misc/scripts). This ensures that when script is
 // executed using `npm *` it is run only when the command is `npm install`.
 const npm_config_argv = process.env.npm_config_argv
-if(npm_config_argv && JSON.parse(npm_config_argv).original[0] === 'install')
+if(npm_config_argv && JSON.parse(npm_config_argv).original[0] === 'install'
+|| process.argv[2] === '--force')
+  // spawn('npm', ['install', '--production'], {cwd: BAREBONES, stdio: 'inherit'})
   spawn('npm', ['run', 'build'], {cwd: BAREBONES, stdio: 'inherit'})
+  .on('exit', function(code, signal)
+  {
+    process.exit(code || signal)
+  })
