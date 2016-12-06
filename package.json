@@ -15,6 +15,7 @@
   "author": "Jesús Leganés Combarro 'piranna' <piranna@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "exclfs": "^0.0.3",
     "jocker": "^0.0.0",
     "libfuse": "^2.9.7",
     "nodeos-boot-multiUser": "^0.4.1",
@@ -23,8 +24,8 @@
     "usrbinenv": "^0.1.0"
   },
   "devDependencies": {
-    "nodeos-barebones": "NodeOS/nodeos-barebones#raspi2",
-    "qemu": "^2.6.0",
+    "nodeos-barebones": "^1.0.0-RC3",
+    "qemu": "^2.7.0",
     "suppose": "^0.6.1"
   },
   "nodeosDependencies": [
@@ -32,7 +33,6 @@
     "nodeos-boot-multiUser",
     "usrbinenv"
   ],
-  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/NodeOS/nodeos-initramfs.git"
