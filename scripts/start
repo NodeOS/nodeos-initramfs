@@ -47,7 +47,7 @@ var args =
   '-redir', 'tcp:50080::80',
   '-redir', 'tcp:50443::443',
   '--kernel', require('nodeos-barebones')+'/out/'+cpu+'/linux',
-  '--initrd', 'out/'+cpu+'.cpio.gz',
+  '--initrd', 'out/'+cpu,
   '-append',  append.join(' ')
 ]
 
@@ -71,6 +71,8 @@ if(kvm.test(contents) === false)
   console.log("Your computer does not support kvm. NodeOS will be slower without it.");
   args.shift();
 }
+
+if(machine) args.unshift('-machine', machine)
 
 spawn(command, args, {stdio: 'inherit'})
 .on('error', console.trace.bind(console))
