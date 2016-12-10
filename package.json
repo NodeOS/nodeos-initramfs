@@ -17,7 +17,7 @@
   "dependencies": {
     "exclfs": "^0.0.3",
     "jocker": "^0.0.0",
-    "libfuse": "^2.9.7",
+    "libfuse": "^3.0.0",
     "nodeos-boot-multiUser": "^0.4.1",
     "nodeos-cross-toolchain": "^1.0.0-RC3",
     "nodeos-nodejs": "^6.9.1",
