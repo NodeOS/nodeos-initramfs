@@ -15,9 +15,9 @@
   "author": "Jesús Leganés Combarro 'piranna' <piranna@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "exclfs": "^0.0.3",
+    "exclfs": "piranna/exclfs",
     "jocker": "^0.0.0",
-    "libfuse": "^2.9.7",
+    "libfuse": "^2.9.8-0",
     "nodeos-boot-multiUser": "^0.4.1",
     "nodeos-cross-toolchain": "^1.0.0-RC3",
     "usrbinenv": "^0.1.0"

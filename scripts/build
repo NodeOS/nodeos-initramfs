@@ -40,8 +40,8 @@ SRC_FUSE=`node -p "require('libfuse')"`
 
 (
   cd $SRC_FUSE
-  BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm run build || exit 11
-  # BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm install --production || exit 11
+  # BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm run build || exit 11
+  BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm install --production || exit 11
 ) || err $?
 
 
@@ -59,8 +59,9 @@ if [[ ! -d $STEP_DIR ]]; then
   #
   # Install FUSE
   #
+  SRC_FUSE=$SRC_FUSE/out/$CPU
 
-  eval "$NPMi" -g exclfs                          \
+  eval "$NPMi" -g piranna/exclfs                  \
       --fuse__include_dirs=$SRC_FUSE/include/fuse \
       --fuse__library_dirs=$SRC_FUSE/lib          \
       --fuse__libraries=-lfuse                    || err 20
