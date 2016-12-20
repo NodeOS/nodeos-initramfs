@@ -17,7 +17,7 @@
   "dependencies": {
     "exclfs": "piranna/exclfs",
     "jocker": "^0.0.0",
-    "libfuse": "^2.9.8-0",
+    "libfuse": "^2.9.8-2",
     "nodeos-boot-multiUser": "^0.4.1",
     "nodeos-cross-toolchain": "^1.0.0-RC3",
     "usrbinenv": "^0.1.0"

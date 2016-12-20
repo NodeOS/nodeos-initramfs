@@ -39,9 +39,7 @@ OUT_DIR=`pwd`/out/$CPU
 SRC_FUSE=`node -p "require('libfuse')"`
 
 (
-  cd $SRC_FUSE
-  # BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm run build || exit 11
-  BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm install --production || exit 11
+  cd $SRC_FUSE && eval "$NPMi" || exit 11
 ) || err $?
 
 
