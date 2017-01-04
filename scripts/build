@@ -21,6 +21,7 @@ PATH=$TOOLCHAIN/bin:$PATH
 # Build cross-compiler (if needed)
 (
   cd $TOOLCHAIN
+
   BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm install --production || exit 1
 ) || exit $?
 
@@ -54,9 +55,9 @@ if [[ ! -d $STEP_DIR ]]; then
 
   rmStep $OUT_DIR
 
-  #
-  # Install FUSE
-  #
+
+  # Install FUSE & ExclFS
+
   SRC_FUSE=$SRC_FUSE/out/$CPU
 
   eval "$NPMi" -g piranna/exclfs                  \
@@ -66,9 +67,8 @@ if [[ ! -d $STEP_DIR ]]; then
 
   cp $SRC_FUSE/lib/libfuse.so* $STEP_DIR/lib || err 21
 
-  #
+
   # Install system dependencies
-  #
 
   PACKAGES=`node -p "require('./package.json').nodeosDependencies.join(' ')"`
   eval "$NPMi" -g $PACKAGES || err 22
@@ -77,9 +77,7 @@ if [[ ! -d $STEP_DIR ]]; then
   ln -fs ../bin/nodeos-boot-multiUser $STEP_DIR/sbin/init || err 23
 
 
-  #
   # /usr/bin/env
-  #
 
   mkdir -p             $STEP_DIR/usr/bin     &&
   ln -fs ../../bin/env $STEP_DIR/usr/bin/env || err 24
