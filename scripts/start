@@ -46,7 +46,7 @@ var args =
   '-m', '256M',
   '-redir', 'tcp:50080::80',
   '-redir', 'tcp:50443::443',
-  '--kernel', require('nodeos-barebones')+'/out/'+cpu+'/linux',
+  '--kernel', require('nodeos-barebones')+'/out/'+cpu+'/bzImage',
   '--initrd', 'out/'+cpu,
   '-append',  append.join(' ')
 ]

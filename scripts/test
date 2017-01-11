@@ -33,7 +33,7 @@ var args =
 //  '-enable-kvm',
   '-nographic',
   '-m', '256M',
-  '--kernel', require('nodeos-barebones')+'/out/'+cpu+'/linux',
+  '--kernel', require('nodeos-barebones')+'/out/'+cpu+'/bzImage',
   '--initrd', 'out/'+cpu,
   '-append',  'console=ttyS0'
 ]
