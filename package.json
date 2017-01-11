@@ -17,14 +17,14 @@
   "dependencies": {
     "exclfs": "piranna/exclfs",
     "jocker": "^0.0.0",
-    "libfuse": "^2.9.8-2",
+    "libfuse": "^2.9.8-3",
     "nodeos-boot-multiUser": "^0.4.2",
-    "nodeos-cross-toolchain": "^1.0.0-RC3",
+    "nodeos-cross-toolchain": "^1.0.0-RC3.0",
     "usrbinenv": "^0.1.0"
   },
   "devDependencies": {
-    "nodeos-barebones": "^1.0.0-RC3",
-    "nodeos-nodejs": "^6.9.3",
+    "nodeos-barebones": "^1.0.0-RC3.0",
+    "nodeos-nodejs": "^6.9.4",
     "qemu": "^2.8.0",
     "suppose": "^0.6.1"
   },
