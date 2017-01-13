@@ -6,4 +6,4 @@ if [[ -d $OBJECTS ]]; then
   chmod -R +w $OBJECTS
 fi
 
-rm -rf build/ out/ || exit $?
+rm -rf build/ out/ prebuilds/ || exit $?

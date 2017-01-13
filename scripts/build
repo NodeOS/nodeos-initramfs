@@ -30,7 +30,10 @@ PATH=$TOOLCHAIN/bin:$PATH
 # Define steps paths
 #
 
+NODE_PLATFORM=linux
+
 OUT_DIR=`pwd`/out/$CPU
+PREBUILD=prebuilds/$NODE_PLATFORM-$NODE_ARCH.tar.gz
 
 
 #
@@ -98,6 +101,8 @@ chmod -R o+r       "$OBJECTS/lib/node_modules/usrbinenv" &&
 chmod -R o+r       "$OBJECTS/usr/bin/env"                || exit 30
 
 if [[ ! -f $STEP_DIR ]]; then
+  rmStep $PREBUILD
+
   mkdir -p `dirname $STEP_DIR`
 
   (
@@ -110,3 +115,15 @@ ln -sf $CPU out/latest || err 41
 
 
 echo -e "${GRN}Successfully built 'initramfs'${CLR}"
+
+
+#
+# Pack Node.js in a node-gyp compatible way
+#
+
+# TODO use Node.js arch instead of explicit CPUs and move to BigRedButton
+
+STEP_DIR=$PREBUILD
+
+mkdir -p `dirname $STEP_DIR`          &&
+tar -cf - out/$CPU | gzip > $STEP_DIR || err 100

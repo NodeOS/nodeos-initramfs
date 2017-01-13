@@ -3,9 +3,8 @@
   "version": "1.0.0-RC3.0",
   "description": "Generate a NodeOS initramfs",
   "scripts": {
-    "docker": "docker run",
-    "dockerBuild": "docker build -t initramfs .",
     "build": "scripts/build",
+    "install": "prebuild-install || (buildDependencies && npm run build)",
     "start": "scripts/start",
     "postinstall": "scripts/postinstall",
     "prepublish": "scripts/prepublish",
@@ -15,18 +14,30 @@
   "author": "Jesús Leganés Combarro 'piranna' <piranna@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "builddependencies": "0.0.1",
+    "prebuild-install": "^2.1.0"
+  },
+  "buildDependencies": [
+    "exclfs",
+    "jocker",
+    "libfuse",
+    "nodeos-boot-multiUser",
+    "nodeos-cross-toolchain",
+    "nodeos-nodejs",
+    "usrbinenv"
+  ],
+  "devDependencies": {
     "exclfs": "piranna/exclfs",
     "jocker": "^0.0.0",
     "libfuse": "^2.9.8-3",
+    "nodeos-barebones": "NodeOS/nodeos-barebones",
     "nodeos-boot-multiUser": "^0.4.2",
     "nodeos-cross-toolchain": "^1.0.0-RC3.0",
-    "usrbinenv": "^0.1.0"
-  },
-  "devDependencies": {
-    "nodeos-barebones": "^1.0.0-RC3.0",
     "nodeos-nodejs": "^6.9.4",
+    "prebuild": "^6.0.0",
     "qemu": "^2.8.0",
-    "suppose": "^0.6.1"
+    "suppose": "^0.6.1",
+    "usrbinenv": "^0.1.0"
   },
   "nodeosDependencies": [
     "jocker",
