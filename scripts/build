@@ -71,7 +71,7 @@ if [[ ! -d $STEP_DIR ]]; then
   # Install system dependencies
 
   PACKAGES=`node -p "require('./package.json').nodeosDependencies.join(' ')"`
-  eval "$NPMi" -g $PACKAGES || err 22
+  eval "$NPMi" -g $PACKAGES --has_libblkid=false || err 22
 
   mkdir -p $STEP_DIR/sbin                                 &&
   ln -fs ../bin/nodeos-boot-multiUser $STEP_DIR/sbin/init || err 23
