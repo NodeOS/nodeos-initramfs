@@ -3,11 +3,12 @@
   "version": "1.0.0-RC3.0",
   "description": "Generate a NodeOS initramfs",
   "scripts": {
+    "BigRedButton": "scripts/BigRedButton",
     "build": "scripts/build",
-    "install": "prebuild-install || (buildDependencies && npm run build)",
+    "install": "prebuild-install -d https://github.com/NodeOS/nodeos-initramfs/releases/download/v{version}/{platform}-{arch}.tar.gz || (buildDependencies && npm run build)",
     "start": "scripts/start",
     "postinstall": "scripts/postinstall",
-    "prepublish": "scripts/prepublish",
+    "pretest": "scripts/pretest",
     "test": "scripts/test",
     "unbuild": "scripts/unbuild"
   },

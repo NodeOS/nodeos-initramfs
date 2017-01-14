@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+
+npm install nodeos-barebones qemu suppose
+
+cd `node -p "require('nodeos-barebones')"`
+
+npm install --production

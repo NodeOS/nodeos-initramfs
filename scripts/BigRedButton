@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# This script should generate all the possible build combinations of
+# nodeos-barebones and test them by being able to exec a Node.js REPL. In some
+# cases this could not be fully possible and so the tests should be improved in
+# the future
+
+
+BUILD="npm run build --no-spin"
+TEST="npm test"
+
+
+eval MACHINE=pc BITS=32 $BUILD && MACHINE=pc BITS=32  $TEST || exit 1
+eval MACHINE=pc BITS=64 $BUILD && MACHINE=pc BITS=64  $TEST || exit 2
+eval MACHINE=raspi2     $BUILD                              || exit 3
+
+
+#
+# Upload release to GitHub
+#
+
+if [ "$GITHUB_TOKEN" ]; then
+  prebuild --upload-all $GITHUB_TOKEN || exit 10
+fi
