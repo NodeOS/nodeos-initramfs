@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # This script should generate all the possible build combinations of
-# nodeos-barebones and test them by being able to exec a Node.js REPL. In some
+# `nodeos-initramfs` and test them by being able to exec a Node.js REPL. In some
 # cases this could not be fully possible and so the tests should be improved in
 # the future
 
