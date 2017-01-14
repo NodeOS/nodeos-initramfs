@@ -33,6 +33,7 @@
     "suppose"
   ],
   "devDependencies": {
+    "ci-publish": "^1.3.0",
     "exclfs": "piranna/exclfs",
     "jocker": "^0.0.0",
     "libfuse": "^2.9.8-3",
