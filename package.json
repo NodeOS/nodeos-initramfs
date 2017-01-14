@@ -1,6 +1,6 @@
 {
   "name": "nodeos-initramfs",
-  "version": "1.0.0-RC3.0",
+  "version": "1.0.0-RC3.1",
   "description": "Generate a NodeOS initramfs",
   "scripts": {
     "BigRedButton": "scripts/BigRedButton",
@@ -36,9 +36,9 @@
     "exclfs": "piranna/exclfs",
     "jocker": "^0.0.0",
     "libfuse": "^2.9.8-3",
-    "nodeos-barebones": "NodeOS/nodeos-barebones",
+    "nodeos-barebones": "^1.0.0-RC3.1",
     "nodeos-boot-multiUser": "^0.4.2",
-    "nodeos-cross-toolchain": "^1.0.0-RC3.0",
+    "nodeos-cross-toolchain": "^1.0.0-RC3.1",
     "nodeos-nodejs": "^6.9.4",
     "prebuild": "^6.0.0",
     "qemu": "^2.8.0",
