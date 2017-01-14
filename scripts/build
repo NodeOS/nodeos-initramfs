@@ -22,6 +22,9 @@ PATH=$TOOLCHAIN/bin:$PATH
 (
   cd $TOOLCHAIN
 
+  # We can't use `--arch=$NODE_ARCH` because `prebuild` would install a
+  # cross-compiler for a diferent host platform, so we set the desired target
+  # platform using environment variables instead
   BITS=$BITS CPU=$CPU MACHINE=$MACHINE npm install --production || exit 1
 ) || exit $?
 

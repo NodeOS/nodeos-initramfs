@@ -10,9 +10,9 @@ BUILD="npm run build --no-spin"
 TEST="npm test"
 
 
-eval MACHINE=pc BITS=32 $BUILD && MACHINE=pc BITS=32  $TEST || exit 1
-eval MACHINE=pc BITS=64 $BUILD && MACHINE=pc BITS=64  $TEST || exit 2
-eval MACHINE=raspi2     $BUILD                              || exit 3
+eval MACHINE=pc BITS=32 $BUILD && MACHINE=pc BITS=32 $TEST || exit 1
+eval MACHINE=pc BITS=64 $BUILD && MACHINE=pc BITS=64 $TEST || exit 2
+eval MACHINE=raspi2     $BUILD                             || exit 3
 
 
 #

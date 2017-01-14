@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
 
+TOOLCHAIN=`node -p "require('nodeos-cross-toolchain')"`
+BAREBONES=`node -p "require('nodeos-barebones')"`
 
-npm install nodeos-barebones qemu suppose
 
-cd `node -p "require('nodeos-barebones')"`
+source $TOOLCHAIN/scripts/adjustEnvVars.sh || exit $?
 
-npm install --production
+
+buildDependencies testDependencies || exit 1
+
+(
+  cd $BAREBONES || exit 2
+
+  npm install --arch=$NODE_ARCH --production || exit 3
+) || exit $?

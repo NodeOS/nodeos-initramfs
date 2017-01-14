@@ -27,6 +27,11 @@
     "nodeos-nodejs",
     "usrbinenv"
   ],
+  "testDependencies": [
+    "nodeos-barebones",
+    "qemu",
+    "suppose"
+  ],
   "devDependencies": {
     "exclfs": "piranna/exclfs",
     "jocker": "^0.0.0",
