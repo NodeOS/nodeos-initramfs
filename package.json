@@ -38,7 +38,7 @@
     "jocker": "^0.0.1",
     "libfuse": "^2.9.8-3",
     "nodeos-barebones": "^1.0.0-RC3.1",
-    "nodeos-boot-multiUser": "^0.4.3",
+    "nodeos-boot-multiUser": "^0.5.0",
     "nodeos-cross-toolchain": "^1.0.0-RC3.1",
     "nodeos-nodejs": "^6.9.5-0",
     "prebuild": "^6.0.2",
