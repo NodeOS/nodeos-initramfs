@@ -15,8 +15,8 @@
   "author": "Jesús Leganés Combarro 'piranna' <piranna@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "builddependencies": "0.0.1",
-    "prebuild-install": "^2.1.0"
+    "builddependencies": "^0.0.1",
+    "prebuild-install": "^2.1.2"
   },
   "buildDependencies": [
     "libfuse",
@@ -41,9 +41,9 @@
     "nodeos-boot-singleUserMount": "^0.5.0",
     "nodeos-cross-toolchain": "^1.0.0-RC3.1",
     "nodeos-nodejs": "^6.9.5-0",
-    "prebuild": "^6.0.2",
-    "qemu": "^2.8.0",
-    "suppose": "^0.6.1",
+    "prebuild": "^6.2.0",
+    "qemu": "^2.9.0",
+    "suppose": "^0.6.2",
     "usrbinenv": "^0.1.0"
   },
   "repository": {
