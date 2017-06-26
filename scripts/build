@@ -62,31 +62,61 @@ if [[ ! -d $STEP_DIR ]]; then
   rmStep $OUT_DIR
 
 
-  # Install FUSE & ExclFS
+  # Install FUSE
 
   SRC_FUSE=$SRC_FUSE/out/$CPU
 
-  eval "$NPMi" -g piranna/exclfs                  \
-      --fuse__include_dirs=$SRC_FUSE/include/fuse \
-      --fuse__library_dirs=$SRC_FUSE/lib          \
-      --fuse__libraries=-lfuse                    || err 20
-
-  cp $SRC_FUSE/lib/libfuse.so* $STEP_DIR/lib || err 21
+  mkdir -p                     $STEP_DIR/lib &&
+  cp $SRC_FUSE/lib/libfuse.so* $STEP_DIR/lib || exit 20
 
 
-  # Install system dependencies
+  # Install usrbinenv
 
-  PACKAGES=`node -p "require('./package.json').nodeosDependencies.join(' ')"`
-  eval "$NPMi" -g $PACKAGES --has_libblkid=false || err 22
-
-  mkdir -p $STEP_DIR/sbin                                 &&
-  ln -fs ../bin/nodeos-boot-multiUser $STEP_DIR/sbin/init || err 23
-
-
-  # /usr/bin/env
+  eval "$NPMi" -g usrbinenv || err 21
 
   mkdir -p             $STEP_DIR/usr/bin     &&
-  ln -fs ../../bin/env $STEP_DIR/usr/bin/env || err 24
+  ln -fs ../../bin/env $STEP_DIR/usr/bin/env || err 22
+
+
+  #
+  # Install system init
+  #
+
+  # Default: multiple users system
+  SINGLE_USER=${SINGLE_USER-"nodeos-boot-multiUser"}
+  echo SINGLE_USER: \"$SINGLE_USER\"
+
+  # Empty, single user system with `$HOME` in another partition
+  if [[ -z "$SINGLE_USER" ]]; then
+    INIT=nodeos-boot-singleUserMount
+
+  # Multiple users system
+  elif [[ "$SINGLE_USER" == "nodeos-boot-multiUser" ]]; then
+    INIT=nodeos-boot-multiUser
+
+  # Package defined, single process OS without persistence
+  else
+    (
+      STEP_DIR=$STEP_DIR/tmp
+
+      mkdir -p $STEP_DIR || exit 23
+
+      eval "$NPMi" -g $SINGLE_USER || exit 24
+
+      ln -fs bin/$SINGLE_USER $STEP_DIR/init || exit 25
+    ) || err $?
+
+    INIT=nodeos-boot-singleUser
+  fi
+
+  eval "$NPMi" -g $INIT --has_libblkid=false      \
+      --fuse__include_dirs=$SRC_FUSE/include/fuse \
+      --fuse__library_dirs=$SRC_FUSE/lib          \
+      --fuse__libraries=-lfuse                    || err 26
+
+  mkdir -p $STEP_DIR/sbin                 &&
+  ln -fs ../bin/$INIT $STEP_DIR/sbin/init || err 27
+
 
   echo -e "${GRN}Successfully generated initramfs${CLR}"
 fi
