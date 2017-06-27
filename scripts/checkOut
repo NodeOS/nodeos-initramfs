@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -o pipefail
+
+TOOLCHAIN=`node -p "require('nodeos-cross-toolchain')"` &&
+source $TOOLCHAIN/scripts/adjustEnvVars.sh              || exit $?
+
+test -f out/$CPU-${SINGLE_USER-"nodeos-boot-multiUser"}
