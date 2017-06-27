@@ -29,13 +29,18 @@ PATH=$TOOLCHAIN/bin:$PATH
 ) || exit $?
 
 
+# Default: multiple users system
+SINGLE_USER=${SINGLE_USER-"nodeos-boot-multiUser"}
+
+
 #
 # Define steps paths
 #
 
 NODE_PLATFORM=linux
 
-OUT_DIR=`pwd`/out/$CPU
+OBJ_DIR=$OBJECTS-$SINGLE_USER
+OUT_DIR=`pwd`/out/$CPU-$SINGLE_USER
 PREBUILD=prebuilds/$NODE_PLATFORM-$NODE_ARCH.tar.gz
 
 
@@ -46,7 +51,7 @@ PREBUILD=prebuilds/$NODE_PLATFORM-$NODE_ARCH.tar.gz
 SRC_FUSE=`node -p "require('libfuse')"`
 
 (
-  cd $SRC_FUSE && eval "$NPMi" || exit 11
+  cd $SRC_FUSE && eval "$NPMi" || exit 10
 ) || err $?
 
 
@@ -54,7 +59,7 @@ SRC_FUSE=`node -p "require('libfuse')"`
 # System dependencies
 #
 
-STEP_DIR=$OBJECTS
+STEP_DIR=$OBJ_DIR
 
 if [[ ! -d $STEP_DIR ]]; then
   echo -e "${WHT}Generating initramfs${CLR}"
@@ -81,10 +86,6 @@ if [[ ! -d $STEP_DIR ]]; then
   #
   # Install system init
   #
-
-  # Default: multiple users system
-  SINGLE_USER=${SINGLE_USER-"nodeos-boot-multiUser"}
-  echo SINGLE_USER: \"$SINGLE_USER\"
 
   # Empty, single user system with `$HOME` in another partition
   if [[ -z "$SINGLE_USER" ]]; then
@@ -129,9 +130,9 @@ fi
 STEP_DIR=$OUT_DIR
 
 # Set initramfs files only accesible to root
-chmod -R u-w,go-rw "$OBJECTS"                            &&
-chmod -R o+r       "$OBJECTS/lib/node_modules/usrbinenv" &&
-chmod -R o+r       "$OBJECTS/usr/bin/env"                || exit 30
+chmod -R u-w,go-rw "$OBJ_DIR"                            &&
+chmod -R o+r       "$OBJ_DIR/lib/node_modules/usrbinenv" &&
+chmod -R o+r       "$OBJ_DIR/usr/bin/env"                || exit 30
 
 if [[ ! -f $STEP_DIR ]]; then
   rmStep $PREBUILD
@@ -139,12 +140,12 @@ if [[ ! -f $STEP_DIR ]]; then
   mkdir -p `dirname $STEP_DIR`
 
   (
-    cd "$OBJECTS"                             &&
+    cd "$OBJ_DIR"                             &&
     find | cpio --owner 0:0 -o -H newc | gzip || exit 40
   ) > $STEP_DIR || err $?
 fi
 
-ln -sf $CPU out/latest || err 41
+ln -sf $CPU-$SINGLE_USER out/latest || err 41
 
 
 echo -e "${GRN}Successfully built 'initramfs'${CLR}"
@@ -158,5 +159,5 @@ echo -e "${GRN}Successfully built 'initramfs'${CLR}"
 
 STEP_DIR=$PREBUILD
 
-mkdir -p `dirname $STEP_DIR`          &&
-tar -cf - out/$CPU out/latest | gzip > $STEP_DIR || err 100
+mkdir -p `dirname $STEP_DIR`                                  &&
+tar -cf - out/$CPU-$SINGLE_USER out/latest | gzip > $STEP_DIR || err 50
