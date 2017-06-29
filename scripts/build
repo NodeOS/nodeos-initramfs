@@ -105,15 +105,18 @@ if [[ ! -d $STEP_DIR ]]; then
       eval "$NPMi" -g $SINGLE_USER || exit 24
 
       # Set `/init` to package binary or `server.js` file
-      PACKAGE_JSON=$STEP_DIR/lib/node_modules/$SINGLE_USER/package.json
+      MODULE=lib/node_modules/$SINGLE_USER
+      PACKAGE_JSON=$STEP_DIR/$MODULE/package.json
+      SERVER=$MODULE/server.js
+
       (
         BIN=bin/`pkg-bin $PACKAGE_JSON` && \
         ls     $STEP_DIR/$BIN           && \
         ln -fs $BIN $STEP_DIR/init
       ) \
-      || (
-        SERVER=lib/node_modules/$SINGLE_USER/server.js && \
-        ls     $STEP_DIR/$SERVER                       && \
+      || \
+      (
+        ls     $STEP_DIR/$SERVER && \
         ln -fs $SERVER $STEP_DIR/init
       ) \
       || exit 25
