@@ -21,7 +21,6 @@
   "buildDependencies": [
     "libfuse",
     "nodeos-boot-multiUser",
-    "nodeos-boot-singleUser",
     "nodeos-boot-singleUserMount",
     "nodeos-cross-toolchain",
     "nodeos-nodejs",
@@ -38,7 +37,6 @@
     "libfuse": "^2.9.8-3",
     "nodeos-barebones": "^1.0.0-RC3.1",
     "nodeos-boot-multiUser": "^0.5.3",
-    "nodeos-boot-singleUser": "^0.5.2",
     "nodeos-boot-singleUserMount": "^0.5.2",
     "nodeos-cross-toolchain": "^1.0.0-RC3.1",
     "nodeos-nodejs": "^6.9.5-0",

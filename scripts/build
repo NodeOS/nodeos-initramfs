@@ -88,51 +88,36 @@ if [[ ! -d $STEP_DIR ]]; then
   #
 
   # Empty, single user system with `$HOME` in another partition
+  # TODO `OverlayFS` require workdir and upperdir must be separate subtrees, so
+  # maybe it's a non-sense and should use a `multiUser` partition with a single
+  # folder instead... what's ugly for pendrives :-(
   if [[ -z "$SINGLE_USER" ]]; then
-    INIT=nodeos-boot-singleUserMount
-
-  # Multiple users system
-  elif [[ "$SINGLE_USER" == "nodeos-boot-multiUser" ]]; then
-    INIT=nodeos-boot-multiUser
-
-  # Package defined, single process OS without persistence
-  else
-    (
-      STEP_DIR=$STEP_DIR/tmp
-
-      mkdir -p $STEP_DIR || exit 23
-
-      eval "$NPMi" -g $SINGLE_USER || exit 24
-
-      # Set `/init` to package binary or `server.js` file
-      MODULE=lib/node_modules/$SINGLE_USER
-      PACKAGE_JSON=$STEP_DIR/$MODULE/package.json
-      SERVER=$MODULE/server.js
-
-      (
-        BIN=bin/`pkg-bin $PACKAGE_JSON` && \
-        ls     $STEP_DIR/$BIN           && \
-        ln -fs $BIN $STEP_DIR/init
-      ) \
-      || \
-      (
-        ls     $STEP_DIR/$SERVER && \
-        ln -fs $SERVER $STEP_DIR/init
-      ) \
-      || exit 25
-    ) || err $?
-
-    INIT=nodeos-boot-singleUser
+    SINGLE_USER=nodeos-boot-singleUserMount
   fi
 
-  eval "$NPMi" -g $INIT --has_libblkid=false      \
-      --fuse__include_dirs=$SRC_FUSE/include/fuse \
-      --fuse__library_dirs=$SRC_FUSE/lib          \
-      --fuse__libraries=-lfuse                    || err 26
+  eval "$NPMi" -g $SINGLE_USER --has_libblkid=false \
+      --fuse__include_dirs=$SRC_FUSE/include/fuse   \
+      --fuse__library_dirs=$SRC_FUSE/lib            \
+      --fuse__libraries=-lfuse                      || err 23
 
-  mkdir -p $STEP_DIR/sbin                 &&
-  ln -fs ../bin/$INIT $STEP_DIR/sbin/init || err 27
+  mkdir -p $STEP_DIR/sbin || err 24
 
+  # Set `/sbin/init` to package binary or `server.js` file
+  MODULE=lib/node_modules/$SINGLE_USER
+  PACKAGE_JSON=$STEP_DIR/$MODULE/package.json
+  SERVER=$MODULE/server.js
+
+  (
+    BIN=bin/`pkg-bin $PACKAGE_JSON` && \
+    ls $STEP_DIR/$BIN               && \
+    ln -fs ../$BIN $STEP_DIR/sbin/init
+  ) \
+  || \
+  (
+    ls $STEP_DIR/$SERVER && \
+    ln -fs ../$SERVER $STEP_DIR/sbin/init
+  ) \
+  || exit 25
 
   echo -e "${GRN}Successfully generated initramfs${CLR}"
 fi
@@ -155,6 +140,8 @@ if [[ ! -f $STEP_DIR ]]; then
   mkdir -p `dirname $STEP_DIR`
 
   (
+    # TODO with `nodeos-boot-singleUser`, set user files user:group to `1:1`.
+    # This would require to set the global ones to `0:0` before installing them
     cd "$OBJ_DIR"                             &&
     find | cpio --owner 0:0 -o -H newc | gzip || exit 40
   ) > $STEP_DIR || err $?
