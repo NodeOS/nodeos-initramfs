@@ -30,7 +30,13 @@ PATH=$TOOLCHAIN/bin:$PATH
 
 
 # Default: multiple users system
-SINGLE_USER=${SINGLE_USER-"nodeos-boot-multiUser"}
+if [[ "$SINGLE_USER" ]]; then
+  OUT_NAME=${CPU}_${SINGLE_USER}
+else
+  OUT_NAME=${CPU}
+
+  SINGLE_USER=nodeos-boot-multiUser
+fi
 
 
 #
@@ -39,8 +45,8 @@ SINGLE_USER=${SINGLE_USER-"nodeos-boot-multiUser"}
 
 NODE_PLATFORM=linux
 
-OBJ_DIR=$OBJECTS-$SINGLE_USER
-OUT_DIR=`pwd`/out/$CPU-$SINGLE_USER
+OUT_DIR=`pwd`/out/$OUT_NAME
+OBJ_DIR=${OBJECTS}_${SINGLE_USER}
 PREBUILD=prebuilds/$NODE_PLATFORM-$NODE_ARCH.tar.gz
 
 
@@ -87,14 +93,6 @@ if [[ ! -d $STEP_DIR ]]; then
   # Install system init
   #
 
-  # Empty, single user system with `$HOME` in another partition
-  # TODO `OverlayFS` require workdir and upperdir must be separate subtrees, so
-  # maybe it's a non-sense and should use a `multiUser` partition with a single
-  # folder instead... what's ugly for pendrives :-(
-  if [[ -z "$SINGLE_USER" ]]; then
-    SINGLE_USER=nodeos-boot-singleUserMount
-  fi
-
   eval "$NPMi" -g $SINGLE_USER --has_libblkid=false \
       --fuse__include_dirs=$SRC_FUSE/include/fuse   \
       --fuse__library_dirs=$SRC_FUSE/lib            \
@@ -140,14 +138,15 @@ if [[ ! -f $STEP_DIR ]]; then
   mkdir -p `dirname $STEP_DIR`
 
   (
-    # TODO with `nodeos-boot-singleUser`, set user files user:group to `1:1`.
-    # This would require to set the global ones to `0:0` before installing them
+    # TODO on single user systems, set user files user:group to `1:1`. This
+    # would require to set the global ones to `0:0` before adding the user ones.
+    # Other option is to use the npm `cpio-stream`module
     cd "$OBJ_DIR"                             &&
     find | cpio --owner 0:0 -o -H newc | gzip || exit 40
   ) > $STEP_DIR || err $?
 fi
 
-ln -sf $CPU-$SINGLE_USER out/latest || err 41
+ln -sf $OUT_NAME out/latest || err 41
 
 
 echo -e "${GRN}Successfully built 'initramfs'${CLR}"
@@ -161,5 +160,5 @@ echo -e "${GRN}Successfully built 'initramfs'${CLR}"
 
 STEP_DIR=$PREBUILD
 
-mkdir -p `dirname $STEP_DIR`                                  &&
-tar -cf - out/$CPU-$SINGLE_USER out/latest | gzip > $STEP_DIR || err 50
+mkdir -p `dirname $STEP_DIR`                          &&
+tar -cf - out/$OUT_NAME out/latest | gzip > $STEP_DIR || err 50
