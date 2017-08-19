@@ -10,9 +10,30 @@ BUILD="npm run build --no-spin"
 TEST="npm test"
 
 
-eval MACHINE=pc BITS=32 $BUILD && MACHINE=pc BITS=32 $TEST || exit 1
-eval MACHINE=pc BITS=64 $BUILD && MACHINE=pc BITS=64 $TEST || exit 2
-eval MACHINE=raspi2     $BUILD                             || exit 3
+TOOLCHAIN=`node -p "require('nodeos-cross-toolchain')"`
+
+source $TOOLCHAIN/scripts/adjustEnvVars.sh || exit $?
+
+
+NODE_PLATFORM=linux
+
+
+#
+# Pack `nodeos-initramfs` in a node-gyp compatible way
+#
+function pack-prebuild {
+  # TODO use Node.js arch instead of explicit CPUs
+
+  STEP_DIR=prebuilds/$NODE_PLATFORM-$NODE_ARCH.tar.gz
+
+  mkdir -p `dirname $STEP_DIR`                     &&
+  tar -cf - out/$CPU out/latest | gzip > $STEP_DIR || err 50
+}
+
+
+( export MACHINE=pc BITS=32 ; $BUILD && $TEST && pack-prebuild ) || exit 1
+( export MACHINE=pc BITS=64 ; $BUILD && $TEST && pack-prebuild ) || exit 2
+( export MACHINE=raspi2     ; $BUILD          && pack-prebuild ) || exit 3
 
 
 #

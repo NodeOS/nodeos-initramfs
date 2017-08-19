@@ -150,15 +150,3 @@ ln -sf $OUT_NAME out/latest || err 41
 
 
 echo -e "${GRN}Successfully built 'initramfs'${CLR}"
-
-
-#
-# Pack `nodeos-initramfs` in a node-gyp compatible way
-#
-
-# TODO use Node.js arch instead of explicit CPUs and move to BigRedButton
-
-STEP_DIR=$PREBUILD
-
-mkdir -p `dirname $STEP_DIR`                          &&
-tar -cf - out/$OUT_NAME out/latest | gzip > $STEP_DIR || err 50
