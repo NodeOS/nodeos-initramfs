@@ -42,7 +42,7 @@
     "nodeos-nodejs": "^6.9.5-0",
     "pkg-bin": "github:piranna/pkg-bin",
     "prebuild": "^6.2.1",
-    "qemu": "^2.9.0",
+    "qemu": "^2.11.1",
     "suppose": "^0.6.2",
     "usrbinenv": "^0.1.0"
   },
