@@ -39,7 +39,7 @@
     "nodeos-boot-multiUser": "^0.5.3",
     "nodeos-boot-singleUserMount": "^0.5.2",
     "nodeos-cross-toolchain": "^1.0.0-RC3.1",
-    "nodeos-nodejs": "^6.9.5-0",
+    "nodeos-nodejs": "^10.5.0",
     "pkg-bin": "github:piranna/pkg-bin",
     "prebuild": "^6.2.1",
     "qemu": "^2.9.0",
