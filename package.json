@@ -41,7 +41,7 @@
     "nodeos-cross-toolchain": "^1.0.0-RC3.1",
     "nodeos-nodejs": "^6.9.5-0",
     "pkg-bin": "github:piranna/pkg-bin",
-    "prebuild": "^6.2.1",
+    "prebuild": "^8.1.2",
     "qemu": "^2.9.0",
     "suppose": "^0.6.2",
     "usrbinenv": "^0.1.0"
